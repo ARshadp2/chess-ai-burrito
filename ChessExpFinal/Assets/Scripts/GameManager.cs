@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour // Main class that handles the game
     }
     public void P1Turn() {
         state = "P1 Turn";
+        
         if (end == false) {
             turn += 1;
             rule += 1;
@@ -133,6 +134,13 @@ public class GameManager : MonoBehaviour // Main class that handles the game
                     if (game[z,x] != null && game[z,x].GetComponent<Piece>().en_passant == true && game[z,x].GetComponent<Piece>().isWhite == true)
                         game[z,x].GetComponent<Piece>().en_passant = false;
             if (turn != 1) { // performs checks of danger before allowing the turn
+                for (int z = 0; z < 8; z++) {
+                    for (int x = 0; x < 8; x++) {
+                        if (game[z,x] != null && game[z,x].GetComponent<Piece>().alive == false) {
+                            game[z,x] = null;
+                        }
+                    }
+                }
                 GameObject king = GameObject.Find("KingLight(Clone)");
                 if (king.GetComponent<King>().alive == false) {
                     state = "massive blunder";
@@ -225,6 +233,13 @@ public class GameManager : MonoBehaviour // Main class that handles the game
     }
     public void P2Turn() {
         state = "P2 Turn";
+        for (int z = 0; z < 8; z++) {
+            for (int x = 0; x < 8; x++) {
+                if (game[z,x] != null && game[z,x].GetComponent<Piece>().alive == false) {
+                    game[z,x] = null;
+                }
+            }
+        }
         if (end == false) {
             for (int z = 0; z < 8; z++)
                 for (int x = 0; x < 8; x++)
